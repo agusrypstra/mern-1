@@ -1,13 +1,13 @@
 //arranca el sv
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import app from "./app.js";
-import db from "./database.js";
+import connectToDB from "./database.js";
 
-dotenv.config();
+config();
 
 async function main() {
-  db.connectToDB();
-  await app.listen(app.get("port"));
+  connectToDB();
+  app.listen(app.get("port"));
   console.log("Server on port", app.get("port"));
 }
 main();
