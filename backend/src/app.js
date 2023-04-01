@@ -1,6 +1,7 @@
-import express, { json } from "express";
+import express from "express";
 import cors from "cors";
-import orderRouter from "./routes/orders.js";
+import orderRoutes from "./routes/ordersRoutes.js";
+import usersRoutes from "./routes/usersRoutes.js";
 const app = express();
 
 //settings
@@ -8,10 +9,10 @@ app.set("port", process.env.PORT || 4000);
 
 //middlewares
 app.use(cors());
-app.use(json());
+app.use(express.json());
 //routes
-app.use("/api/orders", orderRouter);
-// app.use("/api/orders", usersRouter);
+app.use("/api/orders", orderRoutes);
+app.use("/api/users", usersRoutes);
 
 //export app
 export default app;

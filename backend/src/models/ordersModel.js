@@ -1,13 +1,8 @@
 import { Schema, model } from "mongoose";
 
-const orderSchema = new Schema(
-  {
-    title: String,
-    description: String,
-  },
-  {
-    timestamps: true,
-  }
-);
+const orderSchema = new Schema({
+  client: String,
+  device: Object,
+});
 
 export default model("Order", orderSchema);

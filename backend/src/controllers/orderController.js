@@ -1,17 +1,36 @@
-const createOrder = async ({title,description,}) => {
-  console.log(params);
+import model from "../models/ordersModel.js";
+const addOrder = async (req, res) => {
+  const { client } = req.body;
+  const { type, trademark, model, issue } = req.body.device;
+  const newOrder = new model({
+    client: client,
+    device: {
+      type,
+      trademark,
+      model,
+      issue,
+    },
+  });
+  newOrder.save();
+  return res.status(201).json({ message: "Ok" });
 };
-const getOrders = () => {
-  return "GET Orders";
+const getOrders = async (req, res) => {
+  const orders = await model.find();
+  return orders.length > 0 ? res.status(200).json(orders) : res.status(204);
 };
-const editOrder = () => {
-  return "PUT Order";
+const updateOrder = async (req, res) => {
+  const { id } = req.params;
+  const { client, device } = req.body;
+  await model.findByIdAndUpdate(id, { client, device });
+  res.status(200).json({ message: "Order updated" });
 };
-const getOrderById = () => {
-  return "GET Order by id";
+const getOrderById = async (req, res) => {
+  const order = await model.findById(req.params.id);
+  return res.status(200).json(order);
 };
-const deleteOrder = () => {
-  return "DELETE Order by id";
+const deleteOrder = async (req, res) => {
+  await model.findByIdAndDelete(req.params.id);
+  return res.status(204).json({ message: "Deleted" });
 };
 
-export default { createOrder, getOrderById, getOrders, editOrder, deleteOrder };
+export default { addOrder, getOrderById, getOrders, updateOrder, deleteOrder };
